@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>P4: Neighborhood Map</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/oauth.js"></script>
+	<script type="text/javascript" src="http://oauth.googlecode.com/svn/code/javascript/sha1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+    <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+    <style type="text/css">
+      html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow: auto;}
+      .container { width: 100%; height: 100%;}
+      #header { width: 100%; padding-bottom: 10px; background-color: rgb(128,255,128); border-width: 1; }
+      .map_container { position: relative; padding-bottom: 56.25%;}
+      .map_container .map_canvas { position: absolute; top: 0; right: 0; bottom: 0; left: 0; margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div id="header" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h1>San Ramon Neighborhood</h1>
+				<label for="searchKey">Enter a search filter</label>
+				<input id="searchKey" type="text" data-bind="textInput: searchKey" />
+				<div id="errorStatus"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-2" id="menu">
+				<p>Neighborhood Locations</p>
+				<ul data-bind="foreach: searchedLocations">
+					<li><button data-bind="text: name, click: $parent.getYelpInfo"></button></li>
+				</ul>
+			</div>
+			<div class="map_container col-xs-12 col-sm-9 col-md-9 col-lg-10">
+				<div class="map_canvas" id="map"></div>
+			</div>
+		</div>
+	</div>
+    <script src="app.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl4AcQE0PkmZbQvZpE9asH6tLLYXXGfSc&callback=initMap"></script>
+
+</body>
+</html>
