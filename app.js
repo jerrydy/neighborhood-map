@@ -1,18 +1,12 @@
 var map;
 var infoWindow = null;
+
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: 37.718229, lng: -121.910362},
+		center: {lat: 37.718229, lng: -121.910362}, // center it on San Ramon, CA
 		zoom: 12
 	});
 	initViewModel();
-}
-
-function removeMarkers(markers) {
-	for (i=0; i < markers().length; i++) {
-		markers()[i].setMap(null);
-	}
-	markers([]);
 }
 
 function initViewModel() {
@@ -67,12 +61,20 @@ function initViewModel() {
 		]),
 		markers: ko.observableArray([])
 	};
+
+	viewModel.removeMarkers = function(markers) {
+		for (i=0; i < markers().length; i++) {
+			markers()[i].setMap(null);
+		}
+		markers([]);
+	};
+
 	// using dependentObservable below so searchLocations is updated whenever searchKey is updated
 	viewModel.searchedLocations = ko.dependentObservable(function() {
 		var found = [];
 		var marker;
 		var loc;
-		removeMarkers(viewModel.markers);
+		viewModel.removeMarkers(viewModel.markers);
 		for (var i=0; i < viewModel.allLocations().length; i++) {
 			if (viewModel.allLocations()[i].name.search(new RegExp(viewModel.searchKey(),"gi")) > -1) {
 				loc = viewModel.allLocations()[i];
@@ -140,7 +142,6 @@ function initViewModel() {
 
 	    parameters = [];
         parameters.push(['phone', loc.phone]);
-	    //parameters.push(['phone', loc.phone]);
 		parameters.push(['callback', 'cb']);
 		parameters.push(['oauth_consumer_key', auth.consumerKey]);
 		parameters.push(['oauth_consumer_secret', auth.consumerSecret]);
@@ -176,5 +177,5 @@ function initViewModel() {
 	};
 
 
-	ko.applyBindings(viewModel);
+	ko.applyBindings(viewModel); // bind my viewmodel to the html, like magic!
 }
