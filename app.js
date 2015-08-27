@@ -108,7 +108,20 @@ function initViewModel() {
 		infoWindow.open(map, loc.marker);
 	};
 
+	viewModel.animateMarker = function (marker) {
+		marker.setAnimation(google.maps.Animation.BOUNCE);
+		setTimeout(function(marker) {
+			return function() {
+				if (marker.getAnimation() !== null) {
+					marker.setAnimation(null);
+				}
+			};
+		}(marker), 3000); // animate bounce for 3 seconds
+	};
+
 	viewModel.getYelpInfo = function (loc) {
+		viewModel.animateMarker(loc.marker);
+
 	    var auth = {
 	        consumerKey : "dCXaoGsZ80OoytNjvMvwTQ",
 	        consumerSecret : "SXg85WbOjA_kaH0mEUrvK5y9gYQ",
@@ -161,6 +174,7 @@ function initViewModel() {
 	    	}
 		});
 	};
+
 
 	ko.applyBindings(viewModel);
 }
